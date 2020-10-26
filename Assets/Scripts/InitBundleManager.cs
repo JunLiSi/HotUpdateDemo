@@ -34,6 +34,29 @@ public class InitBundleManager:MonoBehaviour
 
     public string abRootPath = Application.streamingAssetsPath + "/AssetBundles/";
 
+    private AssetBundle _mainAb;
+    public AssetBundle mainAb {
+        get {
+            if (_mainAb==null)
+            {
+                _mainAb = LoadAssetBundle("AssetBundles").bundle;
+            }
+            return _mainAb;
+        }
+    }
+
+    private AssetBundleManifest _manifest;
+    public AssetBundleManifest manifest {
+        get {
+            if (_manifest==null)
+            {
+                _manifest = mainAb?.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            }
+            return _manifest;
+        }
+
+    }
+
     public void Init(string[] fileArr,Action endAct) {
         StartCoroutine(InitBundle(fileArr,endAct));
     }
@@ -50,14 +73,7 @@ public class InitBundleManager:MonoBehaviour
         for (int i = 0; i < fileArr.Length; i++)
         {
             fileName = fileArr[i];
-            ab = LoadAssetBundle(fileName);
-            if (ab!=null)
-            {
-                info = new AssetBundleInfo();
-                info.bundle = ab;
-                info.referencedCount = 0;
-                assetBundleInfoDict[fileName] = info;
-            }
+            LoadAssetBundle(fileName);
             yield return new WaitForEndOfFrame();
         }
 
@@ -65,18 +81,25 @@ public class InitBundleManager:MonoBehaviour
     }
 
     //加载Ab包
-    public AssetBundle LoadAssetBundle(string assetBundleName) {
+    public AssetBundleInfo LoadAssetBundle(string assetBundleName) {
         AssetBundle ab = null;
         AssetBundleInfo abInfo;
         assetBundleInfoDict.TryGetValue(assetBundleName, out abInfo);
         if (abInfo!=null)
         {
-            ab = abInfo.bundle;
-            return ab;
+            return abInfo;
         }
+        abInfo = new AssetBundleInfo();
         string fullPath = abRootPath + assetBundleName;
         ab = AssetBundle.LoadFromFile(fullPath);
-        return ab;
+        if (ab==null)
+        {
+            return null;
+        }
+        abInfo.bundle = ab;
+        abInfo.referencedCount = 0;
+        assetBundleInfoDict[assetBundleName] = abInfo;
+        return abInfo;
     }
 
     /// <summary>
@@ -109,10 +132,28 @@ public class InitBundleManager:MonoBehaviour
         bundle = info.bundle;
         Debug.Log(useAssetName);
         obj = bundle.LoadAsset(useAssetName);
+        //LoadDependencies(itemName);
         instantiateObj = (GameObject)Instantiate(obj);
         prefabMapDict[assetName] = instantiateObj;
         return instantiateObj;
     }
 
+    /// 载入依赖
+    void LoadDependencies(string name)
+    {
+        if (manifest == null)
+        {
+            Debug.LogError("Please initialize AssetBundleManifest first");
+            return;
+        }
+        
+        string[] dependencies = manifest.GetAllDependencies(name);
+        if (dependencies.Length == 0) return;
+
+        for (int i = 0; i < dependencies.Length; i++)
+        {
+            LoadAssetBundle(dependencies[i]);
+        }
+    }
 
 }

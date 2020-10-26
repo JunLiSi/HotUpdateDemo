@@ -31,6 +31,7 @@ public class AssetsBundleEditor : Editor
         LuaCopyToTempLua();
         InitLuaABList();
         InitPrefabsABList();
+        InitTexturesABList();
         BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression;
         BuildPipeline.BuildAssetBundles(assetsBundlePath, abList.ToArray(), BuildAssetBundleOptions.None, buildTarget);
         CreateMd5File();
@@ -106,6 +107,21 @@ public class AssetsBundleEditor : Editor
         }
     }
 
+    //将贴图添加到AssetBundleBuild列表
+    static void InitTexturesABList() {
+        string textruesDirPath = Application.dataPath + "/" + BundleInfo.texturesDirName;
+        string[] dirArr = Directory.GetDirectories(textruesDirPath);
+        string bundleName = BundleInfo.texturesPrefixRoot + BundleInfo.texturesDirName.ToLower() + BundleInfo.extName;
+        AddABList(bundleName, "Assets/" + BundleInfo.prefabsDirName, "*");
+        for (int i = 0; i < dirArr.Length; i++)
+        {
+            string dirPath = dirArr[i];
+            bundleName = BundleInfo.texturesPrefixRoot + dirPath.Replace(textruesDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
+            string path = "Assets" + dirPath.Replace(Application.dataPath, "");
+            AddABList(bundleName, path, "*");
+        }
+    }
+
     /// <summary>
     /// 添加文件至AssetBundleBuild列表
     /// </summary>
@@ -138,13 +154,13 @@ public class AssetsBundleEditor : Editor
             File.Delete(md5FilePath);
         }
 
-        List<string> mPaths = new List<string>();
         List<string> mFiles = new List<string>();
         string[] files = GetDirFiles(assetBundlePath,new string[] {".meta",".DS_Store"},"*"+BundleInfo.extName);
         if (files==null||files.Length==0)
         {
             return;
         }
+        mFiles.Add(mainBundle);
         foreach (var item in files)
         {
             mFiles.Add(item);

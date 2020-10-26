@@ -16,7 +16,17 @@ public class AssetBundleManager : MonoBehaviour
     //本地AB包根目录
     string localRootPath = Application.streamingAssetsPath+ "/AssetBundles/";
     //服务端AB包根目录
-    public string serverRootPath= "/Users/mac/Desktop/AssetBundles/";
+    public string serverRootPath {
+        get {
+            string dataPath = Application.dataPath;
+            string pattern = "Assets$";
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+            dataPath = regex.Replace(dataPath,string.Empty);
+            dataPath += "TestServer/AssetBundles/";
+            Debug.Log("本地服务器地址："+dataPath);
+            return dataPath;
+        }
+    }
     private string serverMd5Path = BundleInfo.md5FileName;
     public List<DownFileInfo> downInfoList = new List<DownFileInfo>();
     public List<string> otherAssetNameList = new List<string>();

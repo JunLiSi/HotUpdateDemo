@@ -273,7 +273,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e46f5e7d33a43ea8d61cac24a11a8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverRootPath: /Users/mac/Desktop/AssetBundles/
   otherAssetNameList: []
   luaAssetNameList: []
 --- !u!1 &497505206

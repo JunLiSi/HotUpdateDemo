@@ -51,7 +51,7 @@ public class LuaManager : MonoBehaviour
         for (int i = 0; i < assetNames.Length; i++)
         {
             assetName = assetNames[i];
-            ab = InitBundleManager.instance.LoadAssetBundle(assetName);
+            ab = InitBundleManager.instance.LoadAssetBundle(assetName)?.bundle;
             if (ab==null)
             {
                 continue;
