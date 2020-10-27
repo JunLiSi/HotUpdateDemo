@@ -14,7 +14,7 @@ public class DownFileInfo {
 public class AssetBundleManager : MonoBehaviour
 {
     //本地AB包根目录
-    string localRootPath = Application.streamingAssetsPath+ "/AssetBundles/";
+    string localRootPath;// = Application.persistentDataPath+ "/AssetBundles/";
     //服务端AB包根目录
     public string serverRootPath {
         get {
@@ -23,7 +23,6 @@ public class AssetBundleManager : MonoBehaviour
             System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
             dataPath = regex.Replace(dataPath,string.Empty);
             dataPath += "TestServer/AssetBundles/";
-            Debug.Log("本地服务器地址："+dataPath);
             return dataPath;
         }
     }
@@ -35,6 +34,7 @@ public class AssetBundleManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        localRootPath = Application.persistentDataPath + "/AssetBundles/";
         UpdateAssetBundles();
     }
 
@@ -54,6 +54,17 @@ public class AssetBundleManager : MonoBehaviour
             return;
         }
         downInfoList.Clear();
+
+        DownFileInfo md5Info = new DownFileInfo();//下载服务器Md5文件
+        md5Info.fileUrl = serverRootPath + serverMd5Path;
+        md5Info.savePath = localRootPath + serverMd5Path;
+        downInfoList.Add(md5Info);
+
+        DownFileInfo mapInfo = new DownFileInfo();//下载服务器Map文件
+        mapInfo.fileUrl = serverRootPath + BundleInfo.mapFileName;
+        mapInfo.savePath = localRootPath + BundleInfo.mapFileName;
+        downInfoList.Add(mapInfo);
+
         string fileName;
         string serverMd5;
         string serverFilePath;
@@ -87,6 +98,8 @@ public class AssetBundleManager : MonoBehaviour
                 }
 
             }
+
+            
 
             if (needDownLoad)//需要下载文件
             {
@@ -131,7 +144,7 @@ public class AssetBundleManager : MonoBehaviour
 
     //把Lua ab包和非lua ab包区分出来
     void InitAssetNameList() {
-        string path = Application.streamingAssetsPath + "/"+BundleInfo.assetsDirName+"/"+BundleInfo.md5FileName;
+        string path = Application.persistentDataPath + "/"+BundleInfo.assetsDirName+"/"+BundleInfo.md5FileName;
         string[] lines = File.ReadAllLines(path);
         if (lines==null||lines.Length==0)
         {
@@ -168,9 +181,13 @@ public class AssetBundleManager : MonoBehaviour
     //测试加载Ab包中的预制体 随便改
     void TestInitGameObject()
     {
-        GameObject go = InitBundleManager.instance.GetGameObject("prefabs/1.unity3d", "1/Cube");
-        go.transform.position = Vector3.zero;
+        GameObject go = InitBundleManager.instance.GetGameObject("prefabs/1.unity3d", "1/Sphere");
+        go.transform.position = Vector3.zero+Vector3.left*2;
         go.transform.localScale = Vector3.one;
+
+        GameObject go1 = InitBundleManager.instance.GetGameObject("prefabs/2.unity3d", "2/Cube");
+        go1.transform.position = Vector3.zero+Vector3.right*2;
+        go1.transform.localScale = Vector3.one;
     }
 
     //测试加载Ab包中的Lua脚本 随便改

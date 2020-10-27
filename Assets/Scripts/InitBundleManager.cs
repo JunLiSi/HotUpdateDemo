@@ -8,6 +8,7 @@ public class AssetBundleInfo {
     public int referencedCount;
 }
 
+//实例AssetBundle控制类
 public class InitBundleManager:MonoBehaviour
 {
     private static InitBundleManager _instance;
@@ -27,19 +28,19 @@ public class InitBundleManager:MonoBehaviour
         }
     }
 
-    public Dictionary<string, AssetBundleInfo> assetBundleInfoDict=new Dictionary<string, AssetBundleInfo>();
-    public Dictionary<string, GameObject> prefabMapDict = new Dictionary<string, GameObject>();
+    private Dictionary<string, AssetBundleInfo> assetBundleInfoDict=new Dictionary<string, AssetBundleInfo>();
+    private Dictionary<string, UnityEngine.Object> prefabMapDict = new Dictionary<string, UnityEngine.Object>();
 
-    public string prefabRootPath = "Assets/BundleResources/Prefabs/";
+    private string prefabRootPath = "Assets/BundleResources/Prefabs/";
 
-    public string abRootPath = Application.streamingAssetsPath + "/AssetBundles/";
+    private string abRootPath = Application.streamingAssetsPath + "/AssetBundles/";
 
     private AssetBundle _mainAb;
     public AssetBundle mainAb {
         get {
             if (_mainAb==null)
             {
-                _mainAb = LoadAssetBundle("AssetBundles").bundle;
+                _mainAb = LoadAssetBundle("AssetBundles")?.bundle;
             }
             return _mainAb;
         }
@@ -58,6 +59,8 @@ public class InitBundleManager:MonoBehaviour
     }
 
     public void Init(string[] fileArr,Action endAct) {
+
+        abRootPath = Application.persistentDataPath + "/AssetBundles/";
         StartCoroutine(InitBundle(fileArr,endAct));
     }
 
@@ -78,6 +81,7 @@ public class InitBundleManager:MonoBehaviour
         }
 
         endAct?.Invoke();
+        
     }
 
     //加载Ab包
@@ -103,39 +107,66 @@ public class InitBundleManager:MonoBehaviour
     }
 
     /// <summary>
-    /// 实例预制体
+    /// 实例化物体
     /// </summary>
     /// <param name="assetName">ab包名字</param>
     /// <param name="itemName">预制体路径名</param>
     /// <returns></returns>
     public GameObject GetGameObject(string assetName,string itemName) {
-        if (string.IsNullOrEmpty(assetName))
+        GameObject obj;
+        UnityEngine.Object prefab = GetPrefab(assetName,itemName);
+        if (prefab==null)
+        {
+            Debug.Log("预制体加载失败！assetName:"+assetName+"  itemName:"+itemName);
+            return null;
+        }
+        obj = Instantiate(prefab) as GameObject;
+        return obj;
+    }
+
+    /// 载入素材
+    public T LoadAsset<T>(string assetName, string itemName) where T : UnityEngine.Object
+    {
+        assetName = assetName.ToLower();
+        AssetBundleInfo bundleInfo = LoadAssetBundle(assetName);
+        if (bundleInfo==null||bundleInfo.bundle==null)
         {
             return null;
         }
+        return bundleInfo.bundle.LoadAsset<T>(itemName);
+    }
+
+    /// <summary>
+    /// 得到预制体
+    /// </summary>
+    /// <param name="assetName">ab包名字</param>
+    /// <param name="itemName">预制体路径名</param>
+    /// <returns></returns>
+    public UnityEngine.Object GetPrefab(string assetName,string itemName) {
+        if (string.IsNullOrEmpty(assetName) || string.IsNullOrEmpty(itemName))
+        {
+            return null;
+        }
+        string prefabKey = assetName + "_" + itemName;
+        UnityEngine.Object prefab;
+        string useAssetName;
         AssetBundleInfo info;
         AssetBundle bundle;
-        UnityEngine.Object obj;
-        GameObject instantiateObj;
-        string useAssetName;
-        prefabMapDict.TryGetValue(assetName,out instantiateObj);
-        if (instantiateObj)
+        prefabMapDict.TryGetValue(prefabKey,out prefab);
+        if (prefab)
         {
-            return instantiateObj;
+            return prefab;
         }
-        assetBundleInfoDict.TryGetValue(assetName, out info);
-        if (info == null)
+       // "Assets/BundleResources/Prefabs/1/Sphere.prefab"
+        useAssetName = prefabRootPath + itemName + ".prefab";
+        prefab = LoadAsset<UnityEngine.Object>(assetName,useAssetName);
+        if (!prefab)
         {
             return null;
         }
-        useAssetName = prefabRootPath +itemName+".prefab";
-        bundle = info.bundle;
-        Debug.Log(useAssetName);
-        obj = bundle.LoadAsset(useAssetName);
-        //LoadDependencies(itemName);
-        instantiateObj = (GameObject)Instantiate(obj);
-        prefabMapDict[assetName] = instantiateObj;
-        return instantiateObj;
+        LoadDependencies(assetName);
+        prefabMapDict[prefabKey] = prefab;
+        return prefab;
     }
 
     /// 载入依赖
@@ -143,7 +174,6 @@ public class InitBundleManager:MonoBehaviour
     {
         if (manifest == null)
         {
-            Debug.LogError("Please initialize AssetBundleManifest first");
             return;
         }
         
@@ -152,6 +182,7 @@ public class InitBundleManager:MonoBehaviour
 
         for (int i = 0; i < dependencies.Length; i++)
         {
+            Debug.Log("依赖："+dependencies[i]);
             LoadAssetBundle(dependencies[i]);
         }
     }

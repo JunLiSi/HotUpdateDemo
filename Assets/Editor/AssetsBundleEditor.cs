@@ -8,9 +8,15 @@ public class AssetsBundleEditor : Editor
 {
     public static List<AssetBundleBuild> abList = new List<AssetBundleBuild>();
 
-    [MenuItem("SJL/BuildAndroid")]
-    static void BuildAndroid() {//出Android包体，可根据需求配置其他的打包方式
+    [MenuItem("SJL/BuildAssetBundle/BuildAndroid")]
+    static void BuildAndroid() {//出Android包体
         Build(BuildTarget.Android);
+    }
+
+    [MenuItem("SJL/BuildAssetBundle/BuildiOS")]
+    static void BuildiOS()
+    {//出iOS包体
+        Build(BuildTarget.iOS);
     }
 
     static string GetStreamingAssets() {

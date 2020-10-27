@@ -1,8 +1,6 @@
 TempLua/MainLua/Main.lua.bytes|lua/mainlua.unity3d
 TempLua/OtherLua/Test.lua.bytes|lua/otherlua.unity3d
-BundleResources/Prefabs/1/Cube 5.prefab|prefabs/1.unity3d
-BundleResources/Prefabs/1/Cube.prefab|prefabs/1.unity3d
-BundleResources/Prefabs/2/Cube 1.prefab|prefabs/2.unity3d
+BundleResources/Prefabs/1/Sphere.prefab|prefabs/1.unity3d
 BundleResources/Prefabs/2/Cube.prefab|prefabs/2.unity3d
 BundleResources/Textures/3/timg.jpg|textures/3.unity3d
 BundleResources/Textures/4/timg.jpg|textures/4.unity3d

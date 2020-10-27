@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 295065856
+CRC: 4071009793
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -14,7 +14,8 @@ AssetBundleManifest:
         Dependency_0: textures/3.unity3d
     Info_3:
       Name: prefabs/2.unity3d
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: textures/3.unity3d
     Info_4:
       Name: textures/3.unity3d
       Dependencies: {}

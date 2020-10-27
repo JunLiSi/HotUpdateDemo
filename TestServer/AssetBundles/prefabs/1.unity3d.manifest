@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 999111212
+CRC: 502140891
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b0385979b11ba48ba3cf2cf4616de247
+    Hash: 53a0ea68ec943e62bf7d24ce5765397b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 61eab76d03a5b9749b6033ba24619b3d
+    Hash: 1c852c3f2b39b52961df91835dabfb48
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,10 +25,9 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
-- Class: 65
+- Class: 135
   Script: {instanceID: 0}
 Assets:
-- Assets/BundleResources/Prefabs/1/Cube.prefab
-- Assets/BundleResources/Prefabs/1/Cube 5.prefab
+- Assets/BundleResources/Prefabs/1/Sphere.prefab
 Dependencies:
 - /Users/mac/HotUpdateDemo/Assets/StreamingAssets/AssetBundles/textures/3.unity3d
