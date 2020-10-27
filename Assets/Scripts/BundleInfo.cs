@@ -14,6 +14,10 @@ public static class BundleInfo
 
     public static string texturesDirName = "BundleResources/Textures";//所有贴图文件夹名
 
+    public static string fontsDirName = "BundleResources/Fonts";//所有字体文件夹名
+
+    public static string audiosDirName = "BundleResources/Audios";//所有音频文件夹名
+
     public static string extName = ".unity3d";//AssetBundle文件后缀名
 
     public static string luaPrefixRoot = "lua/";//lua AssetBundle文件的前缀根字符
@@ -21,6 +25,10 @@ public static class BundleInfo
     public static string prefabsPrefixRoot = "prefabs/";//Prefabs AssetBundle文件的前缀根字符
 
     public static string texturesPrefixRoot = "textures/";//贴图 AssetBundle文件的前缀根字符
+
+    public static string fontsPrefixRoot = "fonts/";//字体 AssetBundle文件的前缀根字符
+
+    public static string audiosPrefixRoot = "audios/";//音频 AssetBundle文件的前缀根字符
 
     public static string md5FileName = "files_md5.md5";//md5文件的名字
 

@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 568416286
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: da84b73ca9eb117ac19699843e57dd5b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/BundleResources/Textures/3/timg.jpg
+Dependencies: []

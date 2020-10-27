@@ -38,6 +38,8 @@ public class AssetsBundleEditor : Editor
         InitLuaABList();
         InitPrefabsABList();
         InitTexturesABList();
+        InitAudiosABList();
+        InitFontsABList();
         BuildAssetBundleOptions options = BuildAssetBundleOptions.DeterministicAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression;
         BuildPipeline.BuildAssetBundles(assetsBundlePath, abList.ToArray(), BuildAssetBundleOptions.None, buildTarget);
         CreateMd5File();
@@ -118,11 +120,41 @@ public class AssetsBundleEditor : Editor
         string textruesDirPath = Application.dataPath + "/" + BundleInfo.texturesDirName;
         string[] dirArr = Directory.GetDirectories(textruesDirPath);
         string bundleName = BundleInfo.texturesPrefixRoot + BundleInfo.texturesDirName.ToLower() + BundleInfo.extName;
-        AddABList(bundleName, "Assets/" + BundleInfo.prefabsDirName, "*");
+        AddABList(bundleName, "Assets/" + BundleInfo.texturesDirName, "*");
         for (int i = 0; i < dirArr.Length; i++)
         {
             string dirPath = dirArr[i];
             bundleName = BundleInfo.texturesPrefixRoot + dirPath.Replace(textruesDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
+            string path = "Assets" + dirPath.Replace(Application.dataPath, "");
+            AddABList(bundleName, path, "*");
+        }
+    }
+
+    //将字体添加到AssetBundleBuild列表
+    static void InitFontsABList() {
+        string fontsDirPath = Application.dataPath + "/" + BundleInfo.fontsDirName;
+        string[] dirArr = Directory.GetDirectories(fontsDirPath);
+        string bundleName = BundleInfo.fontsPrefixRoot + BundleInfo.fontsDirName.ToLower() + BundleInfo.extName;
+        AddABList(bundleName, "Assets/" + BundleInfo.fontsDirName, "*.ttf");
+        for (int i = 0; i < dirArr.Length; i++)
+        {
+            string dirPath = dirArr[i];
+            bundleName = BundleInfo.fontsPrefixRoot + dirPath.Replace(fontsDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
+            string path = "Assets" + dirPath.Replace(Application.dataPath, "");
+            AddABList(bundleName, path, "*");
+        }
+    }
+
+    //将音频添加到AssetBundleBuild列表
+    static void InitAudiosABList() {
+        string audiosDirPath = Application.dataPath + "/" + BundleInfo.audiosDirName;
+        string[] dirArr = Directory.GetDirectories(audiosDirPath);
+        string bundleName = BundleInfo.audiosPrefixRoot + BundleInfo.audiosDirName.ToLower() + BundleInfo.extName;
+        AddABList(bundleName, "Assets/" + BundleInfo.audiosDirName, "*");
+        for (int i = 0; i < dirArr.Length; i++)
+        {
+            string dirPath = dirArr[i];
+            bundleName = BundleInfo.audiosPrefixRoot + dirPath.Replace(audiosDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
             string path = "Assets" + dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName, path, "*");
         }

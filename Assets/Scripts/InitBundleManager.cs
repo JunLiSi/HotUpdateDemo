@@ -31,7 +31,7 @@ public class InitBundleManager:MonoBehaviour
     private Dictionary<string, AssetBundleInfo> assetBundleInfoDict=new Dictionary<string, AssetBundleInfo>();
     private Dictionary<string, UnityEngine.Object> prefabMapDict = new Dictionary<string, UnityEngine.Object>();
 
-    private string prefabRootPath = "Assets/BundleResources/Prefabs/";
+    private string prefabRootPath = "Assets/"+BundleInfo.prefabsDirName+"/";
 
     private string abRootPath = Application.streamingAssetsPath + "/AssetBundles/";
 
@@ -127,10 +127,12 @@ public class InitBundleManager:MonoBehaviour
     /// 载入素材
     public T LoadAsset<T>(string assetName, string itemName) where T : UnityEngine.Object
     {
+
         assetName = assetName.ToLower();
         AssetBundleInfo bundleInfo = LoadAssetBundle(assetName);
         if (bundleInfo==null||bundleInfo.bundle==null)
         {
+            Debug.LogError("assetName:"+assetName+" 加载AssetBundle失败");
             return null;
         }
         return bundleInfo.bundle.LoadAsset<T>(itemName);
@@ -157,8 +159,8 @@ public class InitBundleManager:MonoBehaviour
         {
             return prefab;
         }
-       // "Assets/BundleResources/Prefabs/1/Sphere.prefab"
         useAssetName = prefabRootPath + itemName + ".prefab";
+        //Debug.Log(useAssetName);
         prefab = LoadAsset<UnityEngine.Object>(assetName,useAssetName);
         if (!prefab)
         {

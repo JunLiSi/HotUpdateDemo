@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 3555296665
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 8db3876fe25051da9775a9e346c56a82
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 3f7d0c5e0986ec71841622bcb2f9be1c
+HashAppended: 0
+ClassTypes:
+- Class: 83
+  Script: {instanceID: 0}
+Assets:
+- Assets/BundleResources/Audios/1/Close.mp3
+Dependencies: []

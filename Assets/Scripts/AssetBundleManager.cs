@@ -13,8 +13,25 @@ public class DownFileInfo {
 
 public class AssetBundleManager : MonoBehaviour
 {
+    private static AssetBundleManager _instance;
+    public static AssetBundleManager instance {
+        get {
+            if (_instance==null)
+            {
+                _instance = GameObject.FindObjectOfType<AssetBundleManager>();
+                if (_instance==null)
+                {
+                    GameObject obj = new GameObject("AssetBundleManager");
+                    _instance = obj.AddComponent<AssetBundleManager>();
+                    DontDestroyOnLoad(obj);
+                }
+            }
+            return _instance;
+        }
+    }
+
     //本地AB包根目录
-    string localRootPath;// = Application.persistentDataPath+ "/AssetBundles/";
+    string localRootPath;
     //服务端AB包根目录
     public string serverRootPath {
         get {
@@ -31,13 +48,6 @@ public class AssetBundleManager : MonoBehaviour
     public List<string> otherAssetNameList = new List<string>();
     public List<string> luaAssetNameList = new List<string>();
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        localRootPath = Application.persistentDataPath + "/AssetBundles/";
-        UpdateAssetBundles();
-    }
-
     //加载服务端Md5文件
     public string[] LoadServerMd5() {
         string[] serverMd5StrArr = File.ReadAllLines(serverRootPath+serverMd5Path);
@@ -45,12 +55,13 @@ public class AssetBundleManager : MonoBehaviour
     }
 
     //更新AssetBundles
-    public void UpdateAssetBundles() {
+    public void UpdateAssetBundles(Action<float> progressAct,Action endAct) {
+        localRootPath = Application.persistentDataPath + "/AssetBundles/";
         string[] serverMd5StrArr = LoadServerMd5();
         if (serverMd5StrArr==null||serverMd5StrArr.Length==0)
         {
-            Debug.Log("无可用更新");
-            StartCoroutine(DownAssetBundles(DownFinish));
+            Debug.LogError("服务器Md5文件内容为空！！！！");
+            //StartCoroutine(DownAssetBundles(progressAct,endAct));
             return;
         }
         downInfoList.Clear();
@@ -99,8 +110,6 @@ public class AssetBundleManager : MonoBehaviour
 
             }
 
-            
-
             if (needDownLoad)//需要下载文件
             {
                 serverFilePath = serverRootPath + fileName;
@@ -113,12 +122,12 @@ public class AssetBundleManager : MonoBehaviour
             }
 
         }
-        StartCoroutine(DownAssetBundles(DownFinish));
+        StartCoroutine(DownAssetBundles(progressAct,endAct));
 
     }
 
     //下载Ab包资源
-    IEnumerator DownAssetBundles(Action endAct) {
+    IEnumerator DownAssetBundles(Action<float> progressAct,Action endAct) {
         if (downInfoList==null||downInfoList.Count==0)
         {
             Debug.Log("无下载内容");
@@ -128,7 +137,6 @@ public class AssetBundleManager : MonoBehaviour
         string fileUrl;
         string saveUrl;
         string fileName;
-        
         for (int i = 0; i < downInfoList.Count; i++)
         {
             DownFileInfo info = downInfoList[i];
@@ -137,13 +145,17 @@ public class AssetBundleManager : MonoBehaviour
             Debug.Log("下载或更新：" + saveUrl);
             File.Copy(fileUrl,saveUrl,true);
             yield return new WaitForFixedUpdate();
+            progressAct?.Invoke((float)(i+1)/downInfoList.Count);
         }
         downInfoList.Clear();
+        InitAssetNameList();
         endAct?.Invoke();
     }
 
     //把Lua ab包和非lua ab包区分出来
     void InitAssetNameList() {
+        luaAssetNameList.Clear();
+        otherAssetNameList.Clear();
         string path = Application.persistentDataPath + "/"+BundleInfo.assetsDirName+"/"+BundleInfo.md5FileName;
         string[] lines = File.ReadAllLines(path);
         if (lines==null||lines.Length==0)
@@ -167,34 +179,12 @@ public class AssetBundleManager : MonoBehaviour
         }
     }
 
-    //Ab包更新完成
-    void DownFinish()
-    {
-        InitAssetNameList();
-        InitBundleManager.instance.Init(otherAssetNameList.ToArray(), () =>
-        {
-            TestInitGameObject();
-            LuaManager.instance.Init(luaAssetNameList.ToArray(), TestInitLua);
-        });
+    public void InitLuaBundle(Action endAct) {
+        LuaManager.instance.Init(luaAssetNameList.ToArray(), endAct);
     }
 
-    //测试加载Ab包中的预制体 随便改
-    void TestInitGameObject()
-    {
-        GameObject go = InitBundleManager.instance.GetGameObject("prefabs/1.unity3d", "1/Sphere");
-        go.transform.position = Vector3.zero+Vector3.left*2;
-        go.transform.localScale = Vector3.one;
-
-        GameObject go1 = InitBundleManager.instance.GetGameObject("prefabs/2.unity3d", "2/Cube");
-        go1.transform.position = Vector3.zero+Vector3.right*2;
-        go1.transform.localScale = Vector3.one;
+    public void InitOtherBundle(Action endAct) {
+        InitBundleManager.instance.Init(otherAssetNameList.ToArray(),endAct);
     }
 
-    //测试加载Ab包中的Lua脚本 随便改
-    void TestInitLua()
-    {
-        Debug.Log("测试Main.lua脚本执行状态");
-        XLua.LuaEnv luaEnv = LuaManager.instance.GetLuaEnv();
-        luaEnv.DoString("require 'MainLua/Main'");
-    }
 }
