@@ -61,7 +61,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\AssetsBundleEditor.cs" />
+    <Compile Include="Assets\Editor\CreateExpand.cs" />
     <Compile Include="Assets\Editor\LuaInspector.cs" />
+    <Compile Include="Assets\Reporter\Reporter\Editor\ReporterEditor.cs" />
     <Compile Include="Assets\XLua\Editor\ExampleConfig.cs" />
     <Compile Include="Assets\XLua\Examples\13_BuildFromCLI\Editor\BuildFromCLI.cs" />
     <Compile Include="Assets\XLua\Src\Editor\Generator.cs" />

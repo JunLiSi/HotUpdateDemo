@@ -60,6 +60,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Reporter\Reporter\MultiKeyDictionary.cs" />
+    <Compile Include="Assets\Reporter\Reporter\Reporter.cs" />
+    <Compile Include="Assets\Reporter\Reporter\ReporterGUI.cs" />
+    <Compile Include="Assets\Reporter\Reporter\ReporterMessageReceiver.cs" />
+    <Compile Include="Assets\Reporter\Reporter\Test\Rotate.cs" />
+    <Compile Include="Assets\Reporter\Reporter\Test\TestReporter.cs" />
     <Compile Include="Assets\Scripts\AssetBundle\AssetBundleManager.cs" />
     <Compile Include="Assets\Scripts\AssetBundle\BundleInfo.cs" />
     <Compile Include="Assets\Scripts\AssetBundle\InitBundleManager.cs" />
@@ -67,8 +73,10 @@
     <Compile Include="Assets\Scripts\Lua\LuaBehaviour.cs" />
     <Compile Include="Assets\Scripts\Lua\LuaManager.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
+    <Compile Include="Assets\Scripts\Test\TestScene.cs" />
     <Compile Include="Assets\Scripts\Tools\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Tools\Md5Tools.cs" />
+    <Compile Include="Assets\Scripts\UI\CircleImage.cs" />
     <Compile Include="Assets\XLua\Examples\01_Helloworld\Helloworld.cs" />
     <Compile Include="Assets\XLua\Examples\02_U3DScripting\LuaBehaviour.cs" />
     <Compile Include="Assets\XLua\Examples\04_LuaObjectOrented\InvokeLua.cs" />

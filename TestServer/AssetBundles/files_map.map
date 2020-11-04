@@ -2,9 +2,12 @@ TempLua/MainLua/Main.lua.bytes|lua/mainlua.unity3d
 TempLua/OtherLua/Test.lua.bytes|lua/otherlua.unity3d
 BundleResources/Prefabs/1/Sphere.prefab|prefabs/1.unity3d
 BundleResources/Prefabs/2/Cube.prefab|prefabs/2.unity3d
+BundleResources/Prefabs/Panels/MainPanel.prefab|prefabs/panels.unity3d
+BundleResources/Prefabs/Panels/SettingPanel.prefab|prefabs/panels.unity3d
 BundleResources/Textures/3/timg.jpg|textures/3.unity3d
 BundleResources/Textures/4/timg 1.jpg|textures/4.unity3d
 BundleResources/Audios/1/Close.mp3|audios/1.unity3d
 BundleResources/Audios/2/Right.mp3|audios/2.unity3d
+BundleResources/Audios/Bg/keepBg.mp3|audios/bg.unity3d
 BundleResources/Fonts/1/PingFangThin.ttf|fonts/1.unity3d
 BundleResources/Fonts/2/PingFang.ttf|fonts/2.unity3d

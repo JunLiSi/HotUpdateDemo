@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3219047639
+CRC: 3142172394
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -17,21 +17,28 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: textures/3.unity3d
     Info_4:
+      Name: prefabs/panels.unity3d
+      Dependencies:
+        Dependency_0: fonts/1.unity3d
+    Info_5:
       Name: textures/3.unity3d
       Dependencies: {}
-    Info_5:
+    Info_6:
       Name: textures/4.unity3d
       Dependencies: {}
-    Info_6:
+    Info_7:
       Name: audios/1.unity3d
       Dependencies: {}
-    Info_7:
+    Info_8:
       Name: audios/2.unity3d
       Dependencies: {}
-    Info_8:
+    Info_9:
+      Name: audios/bg.unity3d
+      Dependencies: {}
+    Info_10:
       Name: fonts/1.unity3d
       Dependencies: {}
-    Info_9:
+    Info_11:
       Name: fonts/2.unity3d
       Dependencies:
         Dependency_0: fonts/1.unity3d

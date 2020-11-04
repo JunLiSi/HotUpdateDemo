@@ -6,7 +6,6 @@ using UnityEngine;
 public class Test : MonoBehaviour
 {
     private AudioClip clip;
-    public AudioClip c;
 
     private void Awake()
     {
@@ -27,7 +26,6 @@ public class Test : MonoBehaviour
     float audioSlider;
     private void OnGUI()
     {
-        clip = c;
         if (GUI.Button(new Rect(10, 10, 150, 80), new GUIContent("PlayAudio")))
         {
             if (!AudioManager.instance.GetClip())
@@ -94,8 +92,8 @@ public class Test : MonoBehaviour
     AudioClip GetAudio()
     {
         AudioClip clip = null;
-        string assetName = "audios/1.unity3d";
-        string itemName = "1/Close";
+        string assetName = "audios/bg.unity3d";
+        string itemName = "Bg/keepBg";
         clip = InitBundleManager.instance.GetAudioClip(assetName, itemName);
         return clip;
     }

@@ -1,0 +1,42 @@
+ManifestFileVersion: 0
+CRC: 3941637192
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1bad15b1a22218a1f09d720a920773f4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5c19584b417d1da192772084bf6ee118
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1392445389, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 86986c7d4ad564c5cb3d6521a3fb4c47, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 128
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
+Assets:
+- Assets/BundleResources/Prefabs/Panels/MainPanel.prefab
+- Assets/BundleResources/Prefabs/Panels/SettingPanel.prefab
+Dependencies:
+- /Users/mac/HotUpdateDemo/Assets/StreamingAssets/AssetBundles/fonts/1.unity3d
