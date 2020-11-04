@@ -5,25 +5,59 @@ using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    private string fontRootPath="Assets/"+BundleInfo.fontsDirName+"/";
-    private string fontExt = ".ttf";
-
-    private string audioRootPath = "Assets/" + BundleInfo.audiosDirName + "/";
-    private string audioExt = ".mp3";
+    private AudioClip clip;
+    public AudioClip c;
 
     private void Awake()
     {
         InitAssetBundle();
     }
 
-    void InitAssetBundle() {
+    void InitAssetBundle()
+    {
 
-        AssetBundleManager.instance.InitOtherBundle(()=> {
+        AssetBundleManager.instance.InitOtherBundle(() => {
             TestInitGameObject();
             TestInitFont();
-            TestInitAudio();
+            clip = GetAudio();
             AssetBundleManager.instance.InitLuaBundle(TestInitLua);
         });
+    }
+
+    float audioSlider;
+    private void OnGUI()
+    {
+        clip = c;
+        if (GUI.Button(new Rect(10, 10, 150, 80), new GUIContent("PlayAudio")))
+        {
+            if (!AudioManager.instance.GetClip())
+            {
+                AudioManager.instance.Play(clip, (float value) =>
+                {
+                    audioSlider = value;
+                }, () =>
+                {
+                    audioSlider = 1;
+                    Debug.LogError("Over");
+                }, true);
+            }
+            else
+            {
+                AudioManager.instance.Play();
+            }
+
+        }
+        else if (GUI.Button(new Rect(10, 90, 150, 80), new GUIContent("ContinueAudio")))
+        {
+            AudioManager.instance.Continue();
+        }
+        else if (GUI.Button(new Rect(10, 170, 150, 80), new GUIContent("StopAudio")))
+        {
+            AudioManager.instance.Stop();
+        }
+        audioSlider = GUI.HorizontalSlider(new Rect(160, 45, 300, 80), audioSlider, 0.0f, 1.0f);
+        GUI.TextArea(new Rect(480, 30, 40, 40), audioSlider.ToString("f1"));
+
     }
 
 
@@ -47,23 +81,28 @@ public class Test : MonoBehaviour
     }
 
     //测试加载Ab包中的字体
-    void TestInitFont() {
+    void TestInitFont()
+    {
         Font font = null;
-        string itemName = fontRootPath + "1/PingFangThin" + fontExt;
-        font = InitBundleManager.instance.LoadAsset<Font>("fonts/1.unity3d", itemName);
+        string assetName = "fonts/1.unity3d";
+        string itemName = "1/PingFangThin";
+        font = InitBundleManager.instance.GetFont(assetName, itemName);
         Debug.Log(font);
     }
 
     //测试加载Ab包中的音频
-    void TestInitAudio() {
+    AudioClip GetAudio()
+    {
         AudioClip clip = null;
-        string itemName = audioRootPath + "1/Close"+audioExt;
-        clip = InitBundleManager.instance.LoadAsset<AudioClip>("audios/1.unity3d", itemName);
-        Debug.Log(clip);
+        string assetName = "audios/1.unity3d";
+        string itemName = "1/Close";
+        clip = InitBundleManager.instance.GetAudioClip(assetName, itemName);
+        return clip;
     }
 
     ////测试加载Ab包中的图片
-    void TestInitTexture() {
+    void TestInitTexture()
+    {
 
     }
 

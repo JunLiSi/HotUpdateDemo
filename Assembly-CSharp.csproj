@@ -60,14 +60,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\AssetBundleManager.cs" />
-    <Compile Include="Assets\Scripts\BundleInfo.cs" />
-    <Compile Include="Assets\Scripts\InitBundleManager.cs" />
+    <Compile Include="Assets\Scripts\AssetBundle\AssetBundleManager.cs" />
+    <Compile Include="Assets\Scripts\AssetBundle\BundleInfo.cs" />
+    <Compile Include="Assets\Scripts\AssetBundle\InitBundleManager.cs" />
     <Compile Include="Assets\Scripts\LoadingScene\LoadingManager.cs" />
-    <Compile Include="Assets\Scripts\LuaBehaviour.cs" />
-    <Compile Include="Assets\Scripts\LuaManager.cs" />
-    <Compile Include="Assets\Scripts\Md5Tools.cs" />
+    <Compile Include="Assets\Scripts\Lua\LuaBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Lua\LuaManager.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
+    <Compile Include="Assets\Scripts\Tools\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Tools\Md5Tools.cs" />
     <Compile Include="Assets\XLua\Examples\01_Helloworld\Helloworld.cs" />
     <Compile Include="Assets\XLua\Examples\02_U3DScripting\LuaBehaviour.cs" />
     <Compile Include="Assets\XLua\Examples\04_LuaObjectOrented\InvokeLua.cs" />

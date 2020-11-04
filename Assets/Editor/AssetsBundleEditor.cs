@@ -19,6 +19,12 @@ public class AssetsBundleEditor : Editor
         Build(BuildTarget.iOS);
     }
 
+    [MenuItem("SJL/BuildAssetBundle/BuildWindows")]
+    static void BuildWindows()
+    {//出Windows包体
+        Build(BuildTarget.StandaloneWindows64);
+    }
+
     static string GetStreamingAssets() {
         return Application.streamingAssetsPath;
     }
@@ -32,7 +38,6 @@ public class AssetsBundleEditor : Editor
             Directory.Delete(assetsBundlePath, true);
         }
         Directory.CreateDirectory(assetsBundlePath);
-        AssetDatabase.Refresh();
         abList.Clear();
         LuaCopyToTempLua();
         InitLuaABList();
