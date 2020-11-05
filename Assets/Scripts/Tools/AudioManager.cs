@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class AudioManager : MonoBehaviour
 {
@@ -30,9 +32,9 @@ public class AudioManager : MonoBehaviour
             audioTime = value.length;
         }
     }
-    private float audioTime;
-    private float pauseTime;
-    private float needPlayTime;
+    private float audioTime;//AudioClip总时间
+    private float pauseTime;//暂停时间
+    private float needPlayTime;//需要播放多长时间
     public bool isLoop {
         get {
             return audioSource.loop;
@@ -40,10 +42,10 @@ public class AudioManager : MonoBehaviour
         set {
             audioSource.loop = value;
         }
-    }
+    }//是否循环播放
     
-    public Action<float> OnProgressEvent;
-    public Action OnAudioEndEvent;
+    public Action<float> OnProgressEvent;//播放进度事件
+    public Action OnAudioEndEvent;//播放结束事件
     
     /// <summary>
     /// 播放音频
@@ -103,12 +105,17 @@ public class AudioManager : MonoBehaviour
     }
 
     //播放
-    public void Play() {
-        audioSource.time = 0;
+    public void Play(float time=0) {
+        if (isPlaying)
+        {
+            StopCoroutine("AudioProgressEventIE");
+            StopCoroutine("AudioEndEventIE");
+        }
+        audioSource.time = time;
         audioSource?.Play();
         if (isPlaying)
         {
-            needPlayTime = audioTime;
+            needPlayTime = audioTime-time;
             StartCoroutine("AudioProgressEventIE");
             if (!isLoop)
             {
@@ -164,7 +171,5 @@ public class AudioManager : MonoBehaviour
             yield return null;
         }
     }
- 
-
 
 }
