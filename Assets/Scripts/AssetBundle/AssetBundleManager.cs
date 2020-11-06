@@ -47,6 +47,8 @@ public class AssetBundleManager : MonoBehaviour
     public List<DownFileInfo> downInfoList = new List<DownFileInfo>();
     public List<string> otherAssetNameList = new List<string>();
     public List<string> luaAssetNameList = new List<string>();
+    // key:lua脚本名字  value:assetName
+    private Dictionary<string, string> luaDict = new Dictionary<string, string>();
 
     //加载服务端Md5文件
     public string[] LoadServerMd5() {
@@ -149,6 +151,7 @@ public class AssetBundleManager : MonoBehaviour
         }
         downInfoList.Clear();
         InitAssetNameList();
+        InitLuaDict();
         endAct?.Invoke();
     }
 
@@ -185,6 +188,40 @@ public class AssetBundleManager : MonoBehaviour
 
     public void InitOtherBundle(Action endAct) {
         InitBundleManager.instance.Init(otherAssetNameList.ToArray(),endAct);
+    }
+
+    //根据Map表存储Lua名字对应的Ab包名字
+    private void InitLuaDict() {
+        localRootPath = Application.persistentDataPath + "/AssetBundles/";
+        string md5Path = localRootPath + BundleInfo.md5FileName;
+        if (!File.Exists(md5Path))
+        {
+            Debug.LogError("Map文件异常！！！");
+            return;
+        }
+        luaDict.Clear();
+        string[] mapLineStrArr = File.ReadAllLines(md5Path);
+        string lineStr;
+        string luaPath;
+        string[] luaPathSplit;
+        string luaScriptName;
+        string assetName;
+        for (int i = 0; i < mapLineStrArr.Length; i++)
+        {
+            lineStr = mapLineStrArr[i];
+            if (!lineStr.StartsWith("TempLua/"))
+            {
+                continue;
+            }
+            luaPath = lineStr.Split('|')[0];
+            luaPathSplit = luaPath.Split('/');
+            luaScriptName = luaPathSplit[luaPathSplit.Length-1];
+            luaScriptName = luaScriptName.Split('.')[0];
+
+            assetName = lineStr.Split('|')[1];
+           // assetName = assetName.Remove(assetName.LastIndexOf('.'));
+            luaDict[luaScriptName] = assetName;
+        }
     }
 
 }
