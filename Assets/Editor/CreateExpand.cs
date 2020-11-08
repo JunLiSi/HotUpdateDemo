@@ -17,5 +17,6 @@ public class CreateExpand : Editor
         circleObj.AddComponent<CircleImage>();
         circleObj.transform.SetParent(go.transform);
         circleObj.transform.localPosition = Vector3.zero;
+        circleObj.transform.localScale = Vector3.one;
     }
 }
