@@ -34,4 +34,18 @@ public static class BundleInfo
 
     public static string mapFileName = "files_map.map";//map文件的名字
 
+    //本地测试服务端AB包根目录
+    public static string serverRootPath
+    {
+        get
+        {
+            string dataPath = Application.dataPath;
+            string pattern = "Assets$";
+            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
+            dataPath = regex.Replace(dataPath, string.Empty);
+            dataPath += "TestServer/AssetBundles/";
+            return dataPath;
+        }
+    }
+
 }

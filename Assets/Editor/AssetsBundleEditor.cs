@@ -8,6 +8,10 @@ public class AssetsBundleEditor : Editor
 {
     public static List<AssetBundleBuild> abList = new List<AssetBundleBuild>();
 
+    //本地测试服务端AssetBundles根路径
+    public static string serverRootPath = BundleInfo.serverRootPath;
+
+
     [MenuItem("SJL/BuildAssetBundle/BuildAndroid")]
     static void BuildAndroid() {//出Android包体
         Build(BuildTarget.Android);
@@ -23,6 +27,38 @@ public class AssetsBundleEditor : Editor
     static void BuildWindows()
     {//出Windows包体
         Build(BuildTarget.StandaloneWindows64);
+    }
+
+    //AssetBundles转移至本地测试服务器
+    [MenuItem("SJL/BuildAssetBundle/AssetBundlesToTestServer")]
+    static void AssetBundlesToTestServer()
+    {
+        string localBundlePath = GetStreamingAssets() + "/" + BundleInfo.assetsDirName;
+        string serverBundlePath = serverRootPath;
+        if (Directory.Exists(serverRootPath))
+        {
+            Directory.Delete(serverRootPath, true);
+        }
+        string[] localFiles = Directory.GetFiles(localBundlePath, "*", SearchOption.AllDirectories);
+        string localFilePath;
+        string serverFilePath;
+        for (int i = 0; i < localFiles.Length; i++)
+        {
+            localFilePath = localFiles[i];
+            if (localFilePath.EndsWith(".meta"))
+            {
+                continue;
+            }
+            serverFilePath = localFilePath.Replace(localBundlePath, serverBundlePath);
+            string dir = Path.GetDirectoryName(serverFilePath);
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
+            File.Copy(localFilePath, serverFilePath);
+        }
+        AssetDatabase.Refresh();
+        Debug.Log("AB包转移至本地测试服务器成功：\n" + System.DateTime.Now.ToString("yyyy-MM-dd||hh:mm:ss"));
     }
 
     static string GetStreamingAssets() {
@@ -50,7 +86,7 @@ public class AssetsBundleEditor : Editor
         CreateMd5File();
         CreateMapFile();
         AssetDatabase.Refresh();
-        Debug.Log("打AB包成功：\n"+System.DateTime.Now.ToString("yyyy-MM-dd||hh:mm:ss"));
+        Debug.Log("打AB包成功：\n"+System.DateTime.Now.ToString("yyyy-MM-dd||hh:mm:ss")+"-----"+ buildTarget);
     }
 
     //Lua文件夹下的lua文件转移至TempLua文件夹下
@@ -75,8 +111,8 @@ public class AssetsBundleEditor : Editor
 
         for (int i = 0; i < files.Length; i++)
         {
-            string filePath = files[i];
-            string dirPath = Path.GetDirectoryName(filePath);
+            string filePath = files[i].Replace("\\", "/");
+            string dirPath = Path.GetDirectoryName(filePath).Replace("\\", "/");
             string tempDirPath = tempDir + dirPath.Replace(luaDir, string.Empty);
             if (!Directory.Exists(tempDirPath))
             {
@@ -97,7 +133,7 @@ public class AssetsBundleEditor : Editor
         AddABList(bundleName,"Assets/"+BundleInfo.tempLuaDirName,"*.bytes");
         for (int i = 0; i < dirArr.Length; i++)
         {
-            string dirPath = dirArr[i];
+            string dirPath = dirArr[i].Replace("\\","/");
             bundleName = BundleInfo.luaPrefixRoot+dirPath.Replace(tempLuaDirPath,"").Replace("/","").ToLower()+BundleInfo.extName;
             string path = "Assets"+dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName,path,"*.bytes");
@@ -113,7 +149,7 @@ public class AssetsBundleEditor : Editor
         AddABList(bundleName,"Assets/"+BundleInfo.prefabsDirName, "*.prefab");
         for (int i = 0; i < dirArr.Length; i++)
         {
-            string dirPath = dirArr[i];
+            string dirPath = dirArr[i].Replace("\\", "/");
             bundleName = BundleInfo.prefabsPrefixRoot+dirPath.Replace(prefabsDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
             string path = "Assets" + dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName, path, "*.prefab");
@@ -128,7 +164,7 @@ public class AssetsBundleEditor : Editor
         AddABList(bundleName, "Assets/" + BundleInfo.texturesDirName, "*");
         for (int i = 0; i < dirArr.Length; i++)
         {
-            string dirPath = dirArr[i];
+            string dirPath = dirArr[i].Replace("\\", "/");
             bundleName = BundleInfo.texturesPrefixRoot + dirPath.Replace(textruesDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
             string path = "Assets" + dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName, path, "*");
@@ -143,7 +179,7 @@ public class AssetsBundleEditor : Editor
         AddABList(bundleName, "Assets/" + BundleInfo.fontsDirName, "*.ttf");
         for (int i = 0; i < dirArr.Length; i++)
         {
-            string dirPath = dirArr[i];
+            string dirPath = dirArr[i].Replace("\\", "/");
             bundleName = BundleInfo.fontsPrefixRoot + dirPath.Replace(fontsDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
             string path = "Assets" + dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName, path, "*");
@@ -158,7 +194,7 @@ public class AssetsBundleEditor : Editor
         AddABList(bundleName, "Assets/" + BundleInfo.audiosDirName, "*");
         for (int i = 0; i < dirArr.Length; i++)
         {
-            string dirPath = dirArr[i];
+            string dirPath = dirArr[i].Replace("\\", "/");
             bundleName = BundleInfo.audiosPrefixRoot + dirPath.Replace(audiosDirPath, "").Replace("/", "").ToLower() + BundleInfo.extName;
             string path = "Assets" + dirPath.Replace(Application.dataPath, "");
             AddABList(bundleName, path, "*");
@@ -214,7 +250,7 @@ public class AssetsBundleEditor : Editor
 
         for (int i = 0; i < mFiles.Count; i++)
         {
-            string file = mFiles[i];
+            string file = mFiles[i].Replace("\\","/");
             if (string.IsNullOrEmpty(file)||file.EndsWith(".meta")||file.Contains(".DS_Store"))
             {
                 continue;
@@ -319,5 +355,5 @@ public class AssetsBundleEditor : Editor
         }
         return fileList.ToArray();
     }
-
+    
 }

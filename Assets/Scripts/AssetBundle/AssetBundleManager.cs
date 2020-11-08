@@ -33,22 +33,19 @@ public class AssetBundleManager : MonoBehaviour
     //本地AB包根目录
     string localRootPath;
     //服务端AB包根目录
-    public string serverRootPath {
-        get {
-            string dataPath = Application.dataPath;
-            string pattern = "Assets$";
-            System.Text.RegularExpressions.Regex regex = new System.Text.RegularExpressions.Regex(pattern);
-            dataPath = regex.Replace(dataPath,string.Empty);
-            dataPath += "TestServer/AssetBundles/";
-            return dataPath;
-        }
-    }
+    private string serverRootPath ;
     private string serverMd5Path = BundleInfo.md5FileName;
     public List<DownFileInfo> downInfoList = new List<DownFileInfo>();
     public List<string> otherAssetNameList = new List<string>();
     public List<string> luaAssetNameList = new List<string>();
     // key:lua脚本名字  value:assetName
     private Dictionary<string, string> luaDict = new Dictionary<string, string>();
+
+    private void Awake()
+    {
+        serverRootPath = BundleInfo.serverRootPath;
+        localRootPath = Application.persistentDataPath + "/AssetBundles/";
+    }
 
     //加载服务端Md5文件
     public string[] LoadServerMd5() {
@@ -58,12 +55,10 @@ public class AssetBundleManager : MonoBehaviour
 
     //更新AssetBundles
     public void UpdateAssetBundles(Action<float> progressAct,Action endAct) {
-        localRootPath = Application.persistentDataPath + "/AssetBundles/";
         string[] serverMd5StrArr = LoadServerMd5();
         if (serverMd5StrArr==null||serverMd5StrArr.Length==0)
         {
             Debug.LogError("服务器Md5文件内容为空！！！！");
-            //StartCoroutine(DownAssetBundles(progressAct,endAct));
             return;
         }
         downInfoList.Clear();
@@ -193,7 +188,7 @@ public class AssetBundleManager : MonoBehaviour
     //根据Map表存储Lua名字对应的Ab包名字
     private void InitLuaDict() {
         localRootPath = Application.persistentDataPath + "/AssetBundles/";
-        string md5Path = localRootPath + BundleInfo.md5FileName;
+        string md5Path = localRootPath + BundleInfo.mapFileName;
         if (!File.Exists(md5Path))
         {
             Debug.LogError("Map文件异常！！！");
@@ -209,7 +204,7 @@ public class AssetBundleManager : MonoBehaviour
         for (int i = 0; i < mapLineStrArr.Length; i++)
         {
             lineStr = mapLineStrArr[i];
-            if (!lineStr.StartsWith("TempLua/"))
+            if (!lineStr.StartsWith(BundleInfo.tempLuaDirName))
             {
                 continue;
             }
@@ -221,6 +216,7 @@ public class AssetBundleManager : MonoBehaviour
             assetName = lineStr.Split('|')[1];
            // assetName = assetName.Remove(assetName.LastIndexOf('.'));
             luaDict[luaScriptName] = assetName;
+            Debug.LogError("key:"+luaScriptName+"   value:"+assetName);
         }
     }
 
