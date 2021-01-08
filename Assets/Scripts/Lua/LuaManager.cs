@@ -25,7 +25,7 @@ public class LuaManager : MonoBehaviour
         }
     }
 
-    public static bool bundleMode = true;//加载BundleLua模式还是本地Lua模式
+    public static bool bundleMode = false;//加载BundleLua模式还是本地Lua模式
     private string luaRootPath = "Assets/"+BundleInfo.tempLuaDirName+"/";
 
 	private LuaEnv luaEnv;
@@ -35,6 +35,14 @@ public class LuaManager : MonoBehaviour
    
     public void Init(string[] fileArr,Action endAct) {
         StartCoroutine(LoadBundleLua(fileArr, endAct));
+    }
+
+
+    public void InitLua() {
+        if (luaEnv == null) {
+            InitLuaEnv();
+        }
+        luaEnv.DoString("require 'Common/InitLua'");
     }
 
     //加载AssetBundles中的Lua脚本
@@ -101,7 +109,6 @@ public class LuaManager : MonoBehaviour
         }
         else {
             filePath = Application.dataPath + "/Lua/" + fileName.Replace('.', '/') + ".lua";
-            Debug.LogError(filePath);
             if (File.Exists(filePath))
             {
                 bytes = File.ReadAllBytes(filePath);

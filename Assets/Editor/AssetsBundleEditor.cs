@@ -191,7 +191,7 @@ public class AssetsBundleEditor : Editor
         string audiosDirPath = Application.dataPath + "/" + BundleInfo.audiosDirName;
         string[] dirArr = Directory.GetDirectories(audiosDirPath);
         string bundleName = BundleInfo.audiosPrefixRoot + BundleInfo.audiosDirName.ToLower() + BundleInfo.extName;
-        AddABList(bundleName, "Assets/" + BundleInfo.audiosDirName, "*");
+        AddABList(bundleName, "Assets/" + BundleInfo.audiosDirName, "*.mp3");
         for (int i = 0; i < dirArr.Length; i++)
         {
             string dirPath = dirArr[i].Replace("\\", "/");

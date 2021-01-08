@@ -74,8 +74,8 @@ public class Test : MonoBehaviour
     //测试加载Ab包中的Lua脚本 
     void TestInitLua()
     {
-        XLua.LuaEnv luaEnv = LuaManager.instance.GetLuaEnv();
-        luaEnv.DoString("require 'MainLua/Main'");
+        //XLua.LuaEnv luaEnv = LuaManager.instance.GetLuaEnv();
+        //luaEnv.DoString("require 'MainLua/Main'");
     }
 
     //测试加载Ab包中的字体

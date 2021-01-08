@@ -65,6 +65,7 @@ public class LoadingManager : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
         async.allowSceneActivation = true;
+        
     }
 
 }
