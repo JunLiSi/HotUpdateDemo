@@ -11,6 +11,14 @@ public class DownFileInfo {
     public string fileName;
 }
 
+public class ObjInfo {
+    public string name;//资源名字
+    public string assetName;//在Bundle对应的AssetName
+    public string localPath;//测试时的本地路径
+    public string formalPath;//正式资源路径
+
+}
+
 public class AssetBundleManager : MonoBehaviour
 {
     private static AssetBundleManager _instance;
@@ -38,8 +46,10 @@ public class AssetBundleManager : MonoBehaviour
     public List<DownFileInfo> downInfoList = new List<DownFileInfo>();
     public List<string> otherAssetNameList = new List<string>();
     public List<string> luaAssetNameList = new List<string>();
-    // key:lua脚本名字  value:assetName
-    private Dictionary<string, string> luaDict = new Dictionary<string, string>();
+    // key:lua脚本名字 
+    private Dictionary<string, ObjInfo> luaDict = new Dictionary<string, ObjInfo>();
+    // key:资源名字
+    private Dictionary<string, ObjInfo> objDict = new Dictionary<string, ObjInfo>();
 
     private void Awake()
     {
@@ -146,7 +156,7 @@ public class AssetBundleManager : MonoBehaviour
         }
         downInfoList.Clear();
         InitAssetNameList();
-        InitLuaDict();
+        InitObjInfoDict();
         endAct?.Invoke();
     }
 
@@ -178,7 +188,10 @@ public class AssetBundleManager : MonoBehaviour
     }
 
     public void InitLuaBundle(Action endAct) {
-        LuaManager.instance.Init(luaAssetNameList.ToArray(), endAct);
+        if (AppCfg.bundleModel)//使用Bundle中的Lua文件
+        {
+            LuaManager.instance.Init(luaAssetNameList.ToArray(), endAct);
+        }
         LuaManager.instance.InitLua();
     }
 
@@ -186,39 +199,89 @@ public class AssetBundleManager : MonoBehaviour
         InitBundleManager.instance.Init(otherAssetNameList.ToArray(),endAct);
     }
 
-    //根据Map表存储Lua名字对应的Ab包名字
-    private void InitLuaDict() {
+    //根据资源名字得到资源信息
+    public ObjInfo GetObjInfo(string name,bool isLua=false) {
+        ObjInfo info=null;
+        if (isLua)//Lua资源
+        {
+            if (luaDict.ContainsKey(name))
+            {
+                info = luaDict[name];
+            }
+        }
+        else {//非Lua资源
+            if (objDict.ContainsKey(name))
+            {
+                info = objDict[name];
+            }
+            else {
+                foreach (var item in objDict.Keys)
+                {
+                    Debug.LogError(item);
+                }
+                Debug.LogError(name + "：资源未找到");
+            }
+        }
+        //if (info==null)
+        //{
+        //    Debug.LogError(name+"：资源未找到");
+        //}
+        return info;
+    }
+
+    //根据Map表存储资源名字对应的资源信息
+    private void InitObjInfoDict() {
+
         localRootPath = Application.persistentDataPath + "/AssetBundles/";
-        string md5Path = localRootPath + BundleInfo.mapFileName;
-        if (!File.Exists(md5Path))
+        string mapPath = localRootPath + BundleInfo.mapFileName;
+        if (!File.Exists(mapPath))
         {
             Debug.LogError("Map文件异常！！！");
             return;
         }
         luaDict.Clear();
-        string[] mapLineStrArr = File.ReadAllLines(md5Path);
+        objDict.Clear();
+        string[] mapLineStrArr = File.ReadAllLines(mapPath);
         string lineStr;
         string luaPath;
+        string objPath;
         string[] luaPathSplit;
+        string[] objPathSplit;
         string luaScriptName;
+        string objName;
         string assetName;
         for (int i = 0; i < mapLineStrArr.Length; i++)
         {
             lineStr = mapLineStrArr[i];
-            if (!lineStr.StartsWith(BundleInfo.tempLuaDirName))
+            ObjInfo info = new ObjInfo();
+            if (lineStr.StartsWith(BundleInfo.tempLuaDirName, StringComparison.CurrentCulture))//Lua资源
             {
-                continue;
+                luaPath = lineStr.Split('|')[0];
+                luaPathSplit = luaPath.Split('/');
+                luaScriptName = luaPathSplit[luaPathSplit.Length - 1];
+                luaScriptName = luaScriptName.Split('.')[0];
+                assetName = lineStr.Split('|')[1];
+                info.assetName = assetName;
+                info.name = luaScriptName;
+                info.formalPath = luaPath;
+                info.localPath =luaPath.Replace("TempLua", "Lua");
+                luaDict[luaScriptName] = info;
             }
-            luaPath = lineStr.Split('|')[0];
-            luaPathSplit = luaPath.Split('/');
-            luaScriptName = luaPathSplit[luaPathSplit.Length-1];
-            luaScriptName = luaScriptName.Split('.')[0];
-
-            assetName = lineStr.Split('|')[1];
-           // assetName = assetName.Remove(assetName.LastIndexOf('.'));
-            luaDict[luaScriptName] = assetName;
-            Debug.LogError("key:"+luaScriptName+"   value:"+assetName);
+            else {//其他资源
+                objPath = lineStr.Split('|')[0];
+                objPathSplit = objPath.Split('/');
+                objName = objPathSplit[objPathSplit.Length - 1];
+                objName = objName.Split('.')[0];
+                assetName = lineStr.Split('|')[1];
+                info.assetName = assetName;
+                info.name = objName;
+                info.formalPath =  objPath;
+                info.localPath = objPath;
+                objDict[objName] = info;
+            }
+            Debug.Log("【objName:】" + info.name + "   【format:】" + info.formalPath + "  【local:】" + info.localPath);
         }
+
     }
 
 }

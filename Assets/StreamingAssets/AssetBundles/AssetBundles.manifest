@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3142172394
+CRC: 82327032
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: lua/mainlua.unity3d
+      Name: lua/common.unity3d
       Dependencies: {}
     Info_1:
-      Name: lua/otherlua.unity3d
+      Name: lua/panels.unity3d
       Dependencies: {}
     Info_2:
       Name: prefabs/1.unity3d

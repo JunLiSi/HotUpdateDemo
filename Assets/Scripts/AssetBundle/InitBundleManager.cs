@@ -70,9 +70,9 @@ public class InitBundleManager : MonoBehaviour
 
     }
 
+
     public void Init(string[] fileArr, Action endAct)
     {
-
         abRootPath = Application.persistentDataPath + "/AssetBundles/";
         StartCoroutine(InitBundle(fileArr, endAct));
     }
@@ -95,7 +95,6 @@ public class InitBundleManager : MonoBehaviour
         }
 
         endAct?.Invoke();
-
     }
 
     //加载Ab包
@@ -144,6 +143,10 @@ public class InitBundleManager : MonoBehaviour
     public T LoadAsset<T>(string assetName, string itemName) where T : UnityEngine.Object
     {
         assetName = assetName.ToLower();
+        if (!assetName.EndsWith(".unity3d",StringComparison.CurrentCulture))
+        {
+            assetName = assetName + ".unity3d";
+        }
         AssetBundleInfo bundleInfo = LoadAssetBundle(assetName);
         if (bundleInfo == null || bundleInfo.bundle == null)
         {
@@ -175,15 +178,26 @@ public class InitBundleManager : MonoBehaviour
         {
             return prefab;
         }
-        useAssetName = prefabRootPath + itemName + ".prefab";
-        //Debug.Log(useAssetName);
-        prefab = LoadAsset<UnityEngine.Object>(assetName, useAssetName);
-        if (!prefab)
+        if (AppCfg.bundleModel)//加载Bundle资源
         {
-            return null;
+            useAssetName = prefabRootPath + itemName + ".prefab";
+            prefab = LoadAsset<UnityEngine.Object>(assetName, useAssetName);
+            if (!prefab)
+            {
+                return null;
+            }
+            LoadDependencies(assetName);
+            prefabMapDict[prefabKey] = prefab;
         }
-        LoadDependencies(assetName);
-        prefabMapDict[prefabKey] = prefab;
+        else {//加载本地资源
+#if UNITY_EDITOR
+            itemName = itemName.Split('/')[itemName.Split('/').Length-1];
+            string localPath =  "Assets/" + AssetBundleManager.instance.GetObjInfo(itemName).localPath;
+            prefab = UnityEditor.AssetDatabase.LoadAssetAtPath(localPath,typeof(GameObject));
+#endif
+            prefabMapDict[prefabKey] = prefab;
+        }
+       
         return prefab;
     }
 

@@ -258,7 +258,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp11(XLua.LuaTable p0, UnityEngine.GameObject p1)
+		public void __Gen_Delegate_Imp11(XLua.LuaTable p0)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -268,9 +268,8 @@ namespace XLua
                 int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
                 ObjectTranslator translator = luaEnv.translator;
                 translator.Push(L, p0);
-                translator.Push(L, p1);
                 
-                PCall(L, 2, 0, errFunc);
+                PCall(L, 1, 0, errFunc);
                 
                 
                 

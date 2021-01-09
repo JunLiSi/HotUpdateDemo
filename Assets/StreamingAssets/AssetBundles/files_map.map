@@ -1,5 +1,9 @@
-TempLua/MainLua/Main.lua.bytes|lua/mainlua.unity3d
-TempLua/OtherLua/Test.lua.bytes|lua/otherlua.unity3d
+TempLua/Common/AssetsBase.lua.bytes|lua/common.unity3d
+TempLua/Common/ClassFunction.lua.bytes|lua/common.unity3d
+TempLua/Common/InitLua.lua.bytes|lua/common.unity3d
+TempLua/Common/PanelManager.lua.bytes|lua/common.unity3d
+TempLua/Common/Stack.lua.bytes|lua/common.unity3d
+TempLua/Panels/MainPanel.lua.bytes|lua/panels.unity3d
 BundleResources/Prefabs/1/Sphere.prefab|prefabs/1.unity3d
 BundleResources/Prefabs/2/Cube.prefab|prefabs/2.unity3d
 BundleResources/Prefabs/Panels/MainPanel.prefab|prefabs/panels.unity3d

@@ -347,6 +347,15 @@
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>/Applications/Visual Studio.app/Contents/Resources/lib/monodevelop/AddIns/MonoDevelop.Unity/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
+    <Reference Include="BestHTTP">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/BestHTTP.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.unity">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/zxing.unity.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/LitJson.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.Advertisements">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.ads@2.0.8/Editor/UnityEditor.Advertisements.dll</HintPath>
     </Reference>

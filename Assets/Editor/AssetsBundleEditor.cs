@@ -216,6 +216,7 @@ public class AssetsBundleEditor : Editor
         for (int i = 0; i < files.Length; i++)
         {
             files[i] = files[i].Replace("\\","/");
+            Debug.Log("【BundleName：+" + bundleName + "  Path:" + files[i] + "】");
         }
         AssetBundleBuild abBuild = new AssetBundleBuild();
         abBuild.assetBundleName = bundleName;

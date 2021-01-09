@@ -72,9 +72,13 @@
     <Compile Include="Assets\Scripts\LoadingScene\LoadingManager.cs" />
     <Compile Include="Assets\Scripts\Lua\LuaBehaviour.cs" />
     <Compile Include="Assets\Scripts\Lua\LuaManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\AppCfg.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
     <Compile Include="Assets\Scripts\Test\TestScene.cs" />
+    <Compile Include="Assets\Scripts\Tools\APIRequest.cs" />
     <Compile Include="Assets\Scripts\Tools\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Tools\ComponentExpand.cs" />
+    <Compile Include="Assets\Scripts\Tools\FileTools.cs" />
     <Compile Include="Assets\Scripts\Tools\Md5Tools.cs" />
     <Compile Include="Assets\Scripts\UI\CircleImage.cs" />
     <Compile Include="Assets\XLua\Examples\01_Helloworld\Helloworld.cs" />
@@ -94,6 +98,7 @@
     <Compile Include="Assets\XLua\Examples\11_RawObject\RawObjectTest.cs" />
     <Compile Include="Assets\XLua\Examples\12_ReImplementInLua\ReImplementInLua.cs" />
     <Compile Include="Assets\XLua\Examples\ExampleGenConfig.cs" />
+    <Compile Include="Assets\XLua\Gen\ComponentExpandWrap.cs" />
     <Compile Include="Assets\XLua\Gen\DelegatesGensBridge.cs" />
     <Compile Include="Assets\XLua\Gen\EnumWrap.cs" />
     <Compile Include="Assets\XLua\Gen\LuaBehaviourWrap.cs" />
@@ -176,11 +181,14 @@
     <Compile Include="Assets\XLua\Tutorial\LoadLuaScript\ByString\ByString.cs" />
     <Compile Include="Assets\XLua\Tutorial\LoadLuaScript\Loader\CustomLoader.cs" />
     <Compile Include="Assets\XLua\Tutorial\LuaCallCSharp\LuaCallCs.cs" />
+    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity5 Upgrade Guide.txt" />
+    <None Include="Assets\Vectrosity\What to import!.txt" />
     <None Include="Assets\XLua\Examples\07_AsyncTest\Resources\message_box.lua.txt" />
     <None Include="Assets\XLua\Examples\06_Coroutine\Resources\cs_coroutine.lua.txt" />
     <None Include="Assets\XLua\Examples\02_U3DScripting\LuaTestScript.lua.txt" />
     <None Include="Assets\XLua\Examples\07_AsyncTest\Resources\async_test.lua.txt" />
     <None Include="Assets\XLua\Tutorial\LoadLuaScript\ByFile\Resources\byfile.lua.txt" />
+    <None Include="Assets\Vectrosity\Vectrosity Documentation\Vectrosity changelog.txt" />
     <None Include="Assets\XLua\Examples\06_Coroutine\Resources\coruntine_test.lua.txt" />
     <None Include="Assets\XLua\Resources\xlua\util.lua.txt" />
     <None Include="Assets\XLua\Examples\03_UIEvent\ButtonInteraction.lua.txt" />
@@ -410,6 +418,15 @@
     </Reference>
     <Reference Include="UnityEngine.SpatialTracking">
       <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="BestHTTP">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/BestHTTP.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.unity">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/zxing.unity.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJson">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>

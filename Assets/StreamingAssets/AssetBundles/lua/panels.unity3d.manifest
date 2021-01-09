@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1918064567
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 67572b69d026265f1431c0ecb0f26a10
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/TempLua/Panels/MainPanel.lua.bytes
+Dependencies: []
