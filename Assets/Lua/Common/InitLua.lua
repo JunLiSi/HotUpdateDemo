@@ -27,4 +27,3 @@ File = CS.System.IO.File
 Application = CS.UnityEngine.Application
 BundleManager=CS.InitBundleManager.instance
 PanelManager:new()
-PanelManager.InstantiatePanel("MainPanel")

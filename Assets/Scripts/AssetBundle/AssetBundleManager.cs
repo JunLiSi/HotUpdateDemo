@@ -192,7 +192,11 @@ public class AssetBundleManager : MonoBehaviour
         {
             LuaManager.instance.Init(luaAssetNameList.ToArray(), endAct);
         }
-        LuaManager.instance.InitLua();
+        else {
+            LuaManager.instance.InitLua();
+            endAct?.Invoke();
+        }
+        
     }
 
     public void InitOtherBundle(Action endAct) {

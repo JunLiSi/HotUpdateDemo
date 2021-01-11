@@ -12,15 +12,23 @@ function PanelManager:ctor()
         local prefabPath = path..panelName
         panelPrefabDict[panelName]=prefabPath
     end
+    CS.PanelManager.instance:Init(PanelManager)
 end
 
 function PanelManager.InstantiatePanel(panelName,parent)
     local obj = BundleManager:GetGameObject("prefabs/Panels",panelPrefabDict[panelName])
+    local behaviour = obj:GetComponent("LuaBehaviour")
+    if behaviour==nil then
+        behaviour = obj:AddComponent(typeof(CS.LuaBehaviour))
+    end
+    behaviour:Init(panelClassDict[panelName])
     if parent==nil then
         obj.transform:SetParent(PanelManager.GetUIRoot())
     else
         obj.transform:SetParent(parent)
     end
+    
+
 end
 
 

@@ -77,6 +77,10 @@ public class LuaManager : MonoBehaviour
 
     //自定义Lua脚本加载器
     public byte[] CustomLoader(ref string fileName) {
+        if (string.IsNullOrEmpty(fileName))
+        {
+            return null;
+        }
         string filePath;
         byte[] bytes=null;
         if (AppCfg.bundleModel)
@@ -87,6 +91,7 @@ public class LuaManager : MonoBehaviour
                 return bytes;
             }
             luaByteDict.TryGetValue(filePath,out bytes);
+            Debug.Log("【Bundle中加载lua】:" + fileName);
             return bytes;
         }
         else {
@@ -99,12 +104,9 @@ public class LuaManager : MonoBehaviour
                 {
                     bytes = File.ReadAllBytes(localFilePath);
                     luaByteDict[filePath] = bytes;
-                    Debug.Log("【本地路径中加载lua】:" + fileName);
                 }
             }
-            else {
-                Debug.Log("【字典中加载lua】:"+fileName);
-            }
+            Debug.Log("【本地路径中加载lua】:" + fileName);
             return bytes;
         }
         
@@ -148,6 +150,7 @@ public class LuaManager : MonoBehaviour
             }
             yield return new WaitForEndOfFrame();
         }
+        InitLua();
         Debug.Log("【Lua脚本初始化完毕！】");
         endAct?.Invoke();
     }

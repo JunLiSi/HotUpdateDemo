@@ -73,10 +73,11 @@
     <Compile Include="Assets\Scripts\Lua\LuaBehaviour.cs" />
     <Compile Include="Assets\Scripts\Lua\LuaManager.cs" />
     <Compile Include="Assets\Scripts\Manager\AppCfg.cs" />
+    <Compile Include="Assets\Scripts\Manager\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\PanelManager.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
     <Compile Include="Assets\Scripts\Test\TestScene.cs" />
     <Compile Include="Assets\Scripts\Tools\APIRequest.cs" />
-    <Compile Include="Assets\Scripts\Tools\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Tools\ComponentExpand.cs" />
     <Compile Include="Assets\Scripts\Tools\FileTools.cs" />
     <Compile Include="Assets\Scripts\Tools\Md5Tools.cs" />

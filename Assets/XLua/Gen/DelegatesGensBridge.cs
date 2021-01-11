@@ -258,7 +258,7 @@ namespace XLua
 #endif
 		}
         
-		public void __Gen_Delegate_Imp11(XLua.LuaTable p0)
+		public void __Gen_Delegate_Imp11(string p0, UnityEngine.Transform p1)
 		{
 #if THREAD_SAFE || HOTFIX_ENABLE
             lock (luaEnv.luaEnvLock)
@@ -267,9 +267,10 @@ namespace XLua
                 RealStatePtr L = luaEnv.rawL;
                 int errFunc = LuaAPI.pcall_prepare(L, errorFuncRef, luaReference);
                 ObjectTranslator translator = luaEnv.translator;
-                translator.Push(L, p0);
+                LuaAPI.lua_pushstring(L, p0);
+                translator.Push(L, p1);
                 
-                PCall(L, 1, 0, errFunc);
+                PCall(L, 2, 0, errFunc);
                 
                 
                 
@@ -743,6 +744,11 @@ namespace XLua
 			    return new UnityEngine.Events.UnityAction(__Gen_Delegate_Imp0);
 			}
 		
+		    if (type == typeof(LuaBehaviour.CallBack))
+			{
+			    return new LuaBehaviour.CallBack(__Gen_Delegate_Imp0);
+			}
+		
 		    if (type == typeof(System.Func<double, double, double>))
 			{
 			    return new System.Func<double, double, double>(__Gen_Delegate_Imp1);
@@ -793,9 +799,9 @@ namespace XLua
 			    return new System.Action<bool>(__Gen_Delegate_Imp10);
 			}
 		
-		    if (type == typeof(LuaBehaviour.CallBack))
+		    if (type == typeof(PanelManager.InstantiatePanelFun))
 			{
-			    return new LuaBehaviour.CallBack(__Gen_Delegate_Imp11);
+			    return new PanelManager.InstantiatePanelFun(__Gen_Delegate_Imp11);
 			}
 		
 		    if (type == typeof(Tutorial.CSCallLua.FDelegate))

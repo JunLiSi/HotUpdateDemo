@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class AppCfg
 {
-    public static bool bundleModel = true;//加载BundleLua模式还是本地Lua模式
+    public static bool bundleModel = false;//加载BundleLua模式还是本地Lua模式
 }

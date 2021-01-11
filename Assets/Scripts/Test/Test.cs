@@ -10,6 +10,7 @@ public class Test : MonoBehaviour
     private void Awake()
     {
         InitAssetBundle();
+        
     }
 
     void InitAssetBundle()
@@ -76,6 +77,7 @@ public class Test : MonoBehaviour
     {
         //XLua.LuaEnv luaEnv = LuaManager.instance.GetLuaEnv();
         //luaEnv.DoString("require 'MainLua/Main'");
+        PanelManager.instance.InstantiatePanel("MainPanel", null);
     }
 
     //测试加载Ab包中的字体

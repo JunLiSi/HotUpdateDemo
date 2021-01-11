@@ -95,8 +95,9 @@ namespace XLua.CSObjectWrap
             
                 
                 {
+                    string _luaName = LuaAPI.lua_tostring(L, 2);
                     
-                    gen_to_be_invoked.Init(  );
+                    gen_to_be_invoked.Init( _luaName );
                     
                     
                     

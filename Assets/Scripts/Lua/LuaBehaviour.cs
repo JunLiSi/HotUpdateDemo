@@ -8,7 +8,7 @@ public class LuaBehaviour : MonoBehaviour
 {
     public string luaScriptName;
     [CSharpCallLua]
-    public delegate void CallBack(LuaTable luaTable);
+    public delegate void CallBack();
 
     private LuaEnv luaEnv=null;
     private LuaTable mLuaTable = null;
@@ -21,8 +21,8 @@ public class LuaBehaviour : MonoBehaviour
     private CallBack luaOnEnable;
     private CallBack luaOnDisable;
 
-    public void Init() {
-
+    public void Init(string luaName) {
+        luaScriptName = luaName;
         luaEnv = LuaManager.instance.GetLuaEnv();
         mLuaTable = luaEnv.NewTable();
         // 为每个脚本设置一个独立的环境，可一定程度上防止脚本间全局变量、函数冲突
@@ -32,58 +32,60 @@ public class LuaBehaviour : MonoBehaviour
         meta.Dispose();
         mLuaTable.Set("transform",transform);
         mLuaTable.Set("gameObject", gameObject);
+        Debug.LogError("加载Lua:"+luaScriptName);
         LuaManager.instance.DOLua(luaScriptName,mLuaTable);
 
         mLuaTable.Get("Awake", out luaAwake);
-        //mLuaTable.Get("OnEnable", out luaOnEnable);
-        //mLuaTable.Get("Start", out luaStart);
-        //mLuaTable.Get("Update", out luaUpdate);
-        //mLuaTable.Get("LateUpdate", out luaLateUpdate);
-        //mLuaTable.Get("OnDisable", out luaOnDisable);
-        //mLuaTable.Get("OnDestroy", out luaOnDestroy);
+        mLuaTable.Get("OnEnable", out luaOnEnable);
+        mLuaTable.Get("Start", out luaStart);
+        mLuaTable.Get("Update", out luaUpdate);
+        mLuaTable.Get("LateUpdate", out luaLateUpdate);
+        mLuaTable.Get("OnDisable", out luaOnDisable);
+        mLuaTable.Get("OnDestroy", out luaOnDestroy);
+        luaAwake?.Invoke();
+        luaOnEnable?.Invoke();
     }
 
     #region Behaviour函数
 
     public void Awake()
     {
-        Init();
-        luaAwake?.Invoke(mLuaTable);
+        luaAwake?.Invoke();
     }
 
     public void OnEnable()
     {
-        luaOnEnable?.Invoke(mLuaTable);
+        luaOnEnable?.Invoke();
     }
 
     public void Start()
     {
-        luaStart?.Invoke(mLuaTable);
+        luaStart?.Invoke();
     }
 
     public void FixedUpdate()
     {
-        luaFixedUpdate?.Invoke(mLuaTable);
+        luaFixedUpdate?.Invoke();
     }
 
     public void Update()
     {
-        luaUpdate?.Invoke(mLuaTable);
+        luaUpdate?.Invoke();
     }
 
     public void LateUpdate()
     {
-        luaLateUpdate?.Invoke(mLuaTable);
+        luaLateUpdate?.Invoke();
     }
 
     public void OnDisable()
     {
-        luaOnDisable?.Invoke(mLuaTable);
+        luaOnDisable?.Invoke();
     }
 
     public void OnDestroy()
     {
-        luaOnDestroy?.Invoke(mLuaTable);
+        luaOnDestroy?.Invoke();
         luaOnDestroy = null;
         luaAwake = null;
         luaOnEnable = null;
@@ -92,7 +94,7 @@ public class LuaBehaviour : MonoBehaviour
         luaUpdate = null;
         luaLateUpdate = null;
         luaFixedUpdate = null;
-        mLuaTable = null;
+        mLuaTable?.Dispose();
     }
 
     #endregion 
