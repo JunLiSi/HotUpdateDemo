@@ -26,20 +26,28 @@ public class PanelManager : MonoBehaviour
 
     [CSharpCallLua]
     public delegate void InstantiatePanelFun(string panelName,Transform parent);
+    [CSharpCallLua]
+    public delegate void HidePanelFun(string panelName,bool onDestroy);
 
-    public InstantiatePanelFun InstantiatePanelEvent;
+    public InstantiatePanelFun ShowPanelEvent;
+    public HidePanelFun HidePanelEvent;
 
 
     public void Init(LuaTable _luaClass)
     {
         Debug.LogError("Init C# PanelManager");
         luaClass = _luaClass;
-        luaClass.Get("InstantiatePanel",out InstantiatePanelEvent);
+        luaClass.Get("ShowPanel",out ShowPanelEvent);
+        luaClass.Get("HidePanel",out HidePanelEvent);
     }
 
 
-    public void InstantiatePanel(string panelName,Transform parent) {
-        InstantiatePanelEvent?.Invoke(panelName,parent);
+    public void ShowPanel(string panelName,Transform parent) {
+        ShowPanelEvent?.Invoke(panelName,parent);
+    }
+
+    public void HidePanel(string panelName,bool onDestroy=false) {
+        HidePanelEvent?.Invoke(panelName, onDestroy);
     }
 
 }

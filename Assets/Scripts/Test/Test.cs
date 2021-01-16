@@ -54,6 +54,18 @@ public class Test : MonoBehaviour
         {
             AudioManager.instance.Stop();
         }
+        else if (GUI.Button(new Rect(10, 250, 150, 80), new GUIContent("ShowPanel")))
+        {
+            PanelManager.instance.ShowPanel("MainPanel",null);
+        }
+        else if (GUI.Button(new Rect(10, 330, 150, 80), new GUIContent("HidePanel")))
+        {
+            PanelManager.instance.HidePanel("MainPanel");
+        }
+        else if (GUI.Button(new Rect(10, 410, 150, 80), new GUIContent("DestroyPanel")))
+        {
+            PanelManager.instance.HidePanel("MainPanel",true);
+        }
         audioSlider = GUI.HorizontalSlider(new Rect(160, 45, 300, 80), audioSlider, 0.0f, 1.0f);
         GUI.TextArea(new Rect(480, 30, 40, 40), audioSlider.ToString("f1"));
 
@@ -77,7 +89,6 @@ public class Test : MonoBehaviour
     {
         //XLua.LuaEnv luaEnv = LuaManager.instance.GetLuaEnv();
         //luaEnv.DoString("require 'MainLua/Main'");
-        PanelManager.instance.InstantiatePanel("MainPanel", null);
     }
 
     //测试加载Ab包中的字体

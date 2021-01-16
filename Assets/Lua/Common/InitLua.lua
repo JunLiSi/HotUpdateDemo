@@ -1,6 +1,5 @@
 require "Common.AssetsBase"
 require "Common.ClassFunction"
-require "Common.Stack"
 require "Common.AssetsBase"
 require "Common.PanelManager"
 
@@ -8,6 +7,8 @@ System = CS.System
 Time = CS.UnityEngine.Time
 Debug = CS.UnityEngine.Debug
 GameObject = CS.UnityEngine.GameObject
+Object=CS.UnityEngine.Object
+Destroy=Object.Destroy
 Vector3 = CS.UnityEngine.Vector3
 Vector4 = CS.UnityEngine.Vector4
 Vector2 = CS.UnityEngine.Vector2
