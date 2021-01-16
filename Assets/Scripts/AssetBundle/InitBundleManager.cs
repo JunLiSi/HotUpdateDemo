@@ -126,16 +126,20 @@ public class InitBundleManager : MonoBehaviour
     /// <param name="assetName">ab包名字</param>
     /// <param name="itemName">预制体路径名</param>
     /// <returns></returns>
-    public GameObject GetGameObject(string assetName, string itemName)
+    public GameObject GetGameObject(string assetName, string itemName,Transform parent=null)
     {
         GameObject obj;
-        UnityEngine.Object prefab = GetPrefab(assetName, itemName);
+        UnityEngine.Object prefab = GetPrefab(assetName,itemName);
         if (prefab == null)
         {
             Debug.Log("预制体加载失败！assetName:" + assetName + "  itemName:" + itemName);
             return null;
         }
-        obj = Instantiate(prefab) as GameObject;
+        if (parent ==null)
+        {
+            parent = PanelManager.instance.GetUIRoot();
+        }
+        obj = Instantiate(prefab,parent) as GameObject;
         return obj;
     }
 

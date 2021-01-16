@@ -1,11 +1,11 @@
-PanelManager = class("PanelManager")
+PanelManager = {}
 local panelClassDict={}--所有Lua脚本字典
 local panelPrefabDict={}--所有面板预制体字典
 local panelPool={}--面板池
 local viewPanelArr={}--显示着的面板集合
 local UIRoot
 
-function PanelManager:ctor()
+function PanelManager:new()
     for panelName,path in pairs(BaseScriptsPath) do
         local luaPath = path..panelName
         panelClassDict[panelName]=luaPath
@@ -17,19 +17,31 @@ function PanelManager:ctor()
     CS.PanelManager.instance:Init(PanelManager)
 end
 
+--根据面板名判断是否有打开的面板
+function PanelManager.IsShow(panelName)
+    if viewPanelArr==nil then
+        return false
+    end
+    local panelInfoArr  = viewPanelArr[panelName]
+    if panelInfoArr==nil or #panelInfoArr==0 then
+        return false
+    end
+    for i=1,#panelInfoArr do
+        if panelInfoArr[i]~=nil and panelInfoArr[i].panelObj~=nil and panelInfoArr[i].panelObj.activeSelf==true then
+            return true
+        end
+    end
+    return false
+end
+
 --实例化面板
 function PanelManager.InstantiatePanel(panelName,parent)
-    local obj = BundleManager:GetGameObject("prefabs/Panels",panelPrefabDict[panelName])
+    local obj = BundleManager:GetGameObject("prefabs/Panels",panelPrefabDict[panelName],parent)
     local behaviour = obj:GetComponent("LuaBehaviour")
     if behaviour==nil then
         behaviour = obj:AddComponent(typeof(CS.LuaBehaviour))
     end
     behaviour:Init(panelClassDict[panelName])
-    if parent==nil then
-        obj.transform:SetParent(PanelManager.GetUIRoot())
-    else
-        obj.transform:SetParent(parent)
-    end
     return obj
 end
 
@@ -184,3 +196,5 @@ function PanelManager.GetUIRoot()
 	end
 	return UIRoot
 end
+
+return PanelManager

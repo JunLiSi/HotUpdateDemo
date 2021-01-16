@@ -54,17 +54,44 @@ public class Test : MonoBehaviour
         {
             AudioManager.instance.Stop();
         }
-        else if (GUI.Button(new Rect(10, 250, 150, 80), new GUIContent("ShowPanel")))
+        else if (GUI.Button(new Rect(10, 250, 150, 80), new GUIContent("ShowMainPanel")))
         {
             PanelManager.instance.ShowPanel("MainPanel",null);
         }
-        else if (GUI.Button(new Rect(10, 330, 150, 80), new GUIContent("HidePanel")))
+        else if (GUI.Button(new Rect(160, 250, 150, 80), new GUIContent("ShowSettingPanel")))
         {
-            PanelManager.instance.HidePanel("MainPanel");
+            PanelManager.instance.ShowPanel("SettingPanel", null);
         }
-        else if (GUI.Button(new Rect(10, 410, 150, 80), new GUIContent("DestroyPanel")))
+        else if (GUI.Button(new Rect(10, 330, 150, 80), new GUIContent("HideMainPanel")))
+        {
+            if (PanelManager.instance.IsShow("MainPanel"))
+            {
+                PanelManager.instance.HidePanel("MainPanel");
+            }
+            else {
+                Debug.LogError("没有打开状态的MainPanel");
+            }
+            
+        }
+        else if (GUI.Button(new Rect(160, 330, 150, 80), new GUIContent("HideSettingPanel")))
+        {
+            if (PanelManager.instance.IsShow("SettingPanel"))
+            {
+                PanelManager.instance.HidePanel("SettingPanel");
+            }
+            else
+            {
+                Debug.LogError("没有打开状态的SettingPanel");
+            }
+            
+        }
+        else if (GUI.Button(new Rect(10, 410, 150, 80), new GUIContent("DestroyMainPanel")))
         {
             PanelManager.instance.HidePanel("MainPanel",true);
+        }
+        else if (GUI.Button(new Rect(160, 410, 150, 80), new GUIContent("DestroySettingPanel")))
+        {
+            PanelManager.instance.HidePanel("SettingPanel", true);
         }
         audioSlider = GUI.HorizontalSlider(new Rect(160, 45, 300, 80), audioSlider, 0.0f, 1.0f);
         GUI.TextArea(new Rect(480, 30, 40, 40), audioSlider.ToString("f1"));

@@ -1,7 +1,7 @@
 require "Common.AssetsBase"
 require "Common.ClassFunction"
 require "Common.AssetsBase"
-require "Common.PanelManager"
+PanelManager=require "Common.PanelManager"
 
 System = CS.System
 Time = CS.UnityEngine.Time
