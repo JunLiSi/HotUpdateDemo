@@ -79,8 +79,10 @@
     <Compile Include="Assets\Scripts\Lua\LuaBehaviour.cs" />
     <Compile Include="Assets\Scripts\Lua\LuaManager.cs" />
     <Compile Include="Assets\Scripts\Manager\AppCfg.cs" />
+    <Compile Include="Assets\Scripts\Manager\ArrayRuleExpand.cs" />
     <Compile Include="Assets\Scripts\Manager\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Manager\PanelManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\UniqueStringManager.cs" />
     <Compile Include="Assets\Scripts\Test\Test.cs" />
     <Compile Include="Assets\Scripts\Test\TestScene.cs" />
     <Compile Include="Assets\Scripts\Tools\APIRequest.cs" />
@@ -432,6 +434,9 @@
     <Reference Include="LitJson">
       <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="Vectrosity">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/Vectrosity/Vectrosity.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
@@ -440,9 +445,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Vectrosity">
-      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/Vectrosity/Vectrosity.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>/Applications/Unity/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

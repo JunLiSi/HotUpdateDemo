@@ -10,7 +10,7 @@ public class Test : MonoBehaviour
     private void Awake()
     {
         InitAssetBundle();
-        
+      
     }
 
     void InitAssetBundle()
@@ -96,6 +96,10 @@ public class Test : MonoBehaviour
         audioSlider = GUI.HorizontalSlider(new Rect(160, 45, 300, 80), audioSlider, 0.0f, 1.0f);
         GUI.TextArea(new Rect(480, 30, 40, 40), audioSlider.ToString("f1"));
 
+        if (Input.GetMouseButton(1))
+        {
+            Debug.LogError("取出一个唯一字符串："+UniqueStringManager.instance.GetString());
+        }
     }
 
 

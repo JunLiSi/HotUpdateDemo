@@ -341,6 +341,9 @@
     <Reference Include="LitJson">
       <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
+    <Reference Include="Vectrosity">
+      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/Vectrosity/Vectrosity.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Analytics.Tracker">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
@@ -349,9 +352,6 @@
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
       <HintPath>/Users/mac/HotUpdateDemo/Library/PackageCache/com.unity.analytics@3.2.2/Unity.Analytics.StandardEvents.dll</HintPath>
-    </Reference>
-    <Reference Include="Vectrosity">
-      <HintPath>/Users/mac/HotUpdateDemo/Assets/Plugins/Vectrosity/Vectrosity.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>/Applications/Unity/Unity.app/Contents/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
